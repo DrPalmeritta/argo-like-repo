@@ -1,0 +1,12 @@
+apiVersion: v2
+appVersion: "1.0"
+description: helm prometheus stack for local use
+
+dependencies:
+- name: kube-prometheus-stack
+  version: 56.21.13
+  repository: http://nexus.cifro.tech/repository/kube-prometheus-stack
+
+name: helmcover
+type: application
+version: 1.0.0

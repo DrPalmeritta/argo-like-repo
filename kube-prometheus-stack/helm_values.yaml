@@ -1,0 +1,114 @@
+# Default values for kube-prometheus-stack.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+kube-prometheus-stack:
+  additionalPrometheusRulesMap:
+    alertmanager-custom:
+      groups:
+      - name: alertmanager.rules
+        rules:
+          - alert: KubernetesMemoryPressure
+            expr: kube_node_status_condition{condition="MemoryPressure",status="true"} == 1
+            for: 10m
+            labels:
+              severity: critical
+            annotations:
+              summary: Kubernetes memory pressure (instance {{ $labels.instance }})
+              description: '{{ $labels.node }} has MemoryPressure condition  VALUE = {{ $value }}  LABELS = {{ $labels }}'
+          - alert: KubernetesDiskPressure
+            expr: kube_node_status_condition{condition="DiskPressure",status="true"} == 1
+            for: 10m
+            labels:
+              severity: critical
+            annotations:
+              summary: Kubernetes disk pressure (instance {{ $labels.instance }})
+              description: '{{ $labels.node }} has DiskPressure condition  VALUE = {{ $value }}  LABELS = {{ $labels }}'
+          # - alert: TestAlert
+          #   expr: vector(1)
+          #   for: 0m
+          #   labels:
+          #     severity: critical
+          #   annotations:
+          #     summary: This is test alert
+          #     description: 'This is a test alert'
+
+  prometheusOperator:
+    nodeSelector:
+      target: infra-stateless
+    admissionWebhooks:
+      patch:
+        nodeSelector:
+          target: infra-stateless
+    resources: {}
+      # limits:
+      #   cpu: '1'
+      #   memory: 4Gi
+      # requests:
+      #   cpu: '1'
+      #   memory: 4Gi
+
+  alertmanager:
+    enabled: true
+    ingress:
+      enabled: false
+    alertmanagerSpec:
+      logLevel: info
+      nodeSelector: {}
+      tolerations: []
+      resources: {}
+        # limits:
+        #   cpu: "1"
+        #   memory: 1Gi
+        # requests:
+        #   cpu: "1"
+        #   memory: 1Gi
+        
+  grafana:
+    nodeSelector: {}
+    ingress:
+      enabled: false
+
+    imageRenderer:
+      enabled: false
+
+  prometheus:
+    ingress:
+      enabled: false
+
+    serviceMonitor:
+      metricRelabelings:
+      - action: keep
+        regex: 'kube_(job|pod|namespace).+'
+        sourceLabels: [__project__]
+    prometheusSpec:
+      scrapeInterval: 30s
+      retention: 10d
+      #retentionSize: "49GB"
+      resources: {}
+        # limits:
+        #   cpu: 2
+        #   memory: 4Gi
+        # requests:
+        #   cpu: 2
+        #   memory: 4Gi
+      containers:
+        - name: prometheus
+          startupProbe:
+            failureThreshold: 300
+            periodSeconds: 10
+      storageSpec: {}
+        # volumeClaimTemplate:
+        #   spec:
+        #     storageClassName: "stable"
+        #     resources:
+        #       requests:
+        #         storage: 52Gi
+      nodeSelector: {}
+      tolerations: []
+
+  prometheus-node-exporter:
+    extraArgs:
+      - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+      - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+      - --collector.processes 
