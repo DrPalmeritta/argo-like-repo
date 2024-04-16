@@ -40,11 +40,11 @@ kube-prometheus-stack:
       patch:
         nodeSelector:
           target: infra-stateless
-    resources: {}
-      # limits:
-      #   cpu: '1'
-      #   memory: 4Gi
-      # requests:
+    resources:
+      limits:
+        cpu: 200m #1000m
+        memory: 1Gi #4Gi
+      requests: {}
       #   cpu: '1'
       #   memory: 4Gi
 
@@ -56,11 +56,11 @@ kube-prometheus-stack:
       logLevel: info
       nodeSelector: {}
       tolerations: []
-      resources: {}
-        # limits:
-        #   cpu: "1"
-        #   memory: 1Gi
-        # requests:
+      resources:
+        limits:
+          cpu: 200m #1000m
+          memory: 500Mi #1Gi
+        requests: {}
         #   cpu: "1"
         #   memory: 1Gi
         
@@ -68,14 +68,12 @@ kube-prometheus-stack:
     nodeSelector: {}
     ingress:
       enabled: false
-
     imageRenderer:
       enabled: false
 
   prometheus:
     ingress:
       enabled: false
-
     serviceMonitor:
       metricRelabelings:
       - action: keep
@@ -85,11 +83,11 @@ kube-prometheus-stack:
       scrapeInterval: 30s
       retention: 10d
       #retentionSize: "49GB"
-      resources: {}
-        # limits:
-        #   cpu: 2
-        #   memory: 4Gi
-        # requests:
+      resources:
+        limits:
+          cpu: 400m #2000m
+          memory: 2Gi #4Gi
+        requests: {}
         #   cpu: 2
         #   memory: 4Gi
       containers:
