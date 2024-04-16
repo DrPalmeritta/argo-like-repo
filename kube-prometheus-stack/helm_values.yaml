@@ -34,12 +34,10 @@ kube-prometheus-stack:
           #     description: 'This is a test alert'
 
   prometheusOperator:
-    nodeSelector:
-      target: infra-stateless
-    admissionWebhooks:
-      patch:
-        nodeSelector:
-          target: infra-stateless
+    nodeSelector: {}
+    admissionWebhooks: {}
+      # patch:
+      #   nodeSelector: {}
     resources:
       limits:
         cpu: 200m #1000m
