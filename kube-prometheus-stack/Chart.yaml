@@ -5,7 +5,7 @@ description: helm prometheus stack for local use
 dependencies:
 - name: kube-prometheus-stack
   version: 56.21.13
-  repository: http://nexus.cifro.tech/repository/kube-prometheus-stack
+  repository: http://10.152.183.141:8080
 
 name: helmcover
 type: application
