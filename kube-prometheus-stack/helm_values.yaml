@@ -78,7 +78,7 @@ kube-prometheus-stack:
         regex: 'kube_(job|pod|namespace).+'
         sourceLabels: [__project__]
     prometheusSpec:
-      scrapeInterval: 30s
+      # scrapeInterval: 30s #ILLIGAL ANYMORE
       retention: 10d
       #retentionSize: "49GB"
       resources:
