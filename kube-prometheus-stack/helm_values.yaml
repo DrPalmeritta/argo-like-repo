@@ -41,7 +41,7 @@ kube-prometheus-stack:
     resources:
       limits:
         cpu: 200m #1000m
-        memory: 1Gi #4Gi
+        memory: 300Mi #4Gi
       requests: {}
       #   cpu: '1'
       #   memory: 4Gi
@@ -57,7 +57,7 @@ kube-prometheus-stack:
       resources:
         limits:
           cpu: 200m #1000m
-          memory: 500Mi #1Gi
+          memory: 300Mi #1Gi
         requests: {}
         #   cpu: "1"
         #   memory: 1Gi
@@ -68,6 +68,13 @@ kube-prometheus-stack:
       enabled: false
     imageRenderer:
       enabled: false
+    resources:
+     limits:
+       cpu: 300m #100m
+       memory: 500Mi #128Mi
+     requests: {}
+    #    cpu: 100m
+    #    memory: 128Mi
 
   prometheus:
     ingress:
@@ -83,8 +90,8 @@ kube-prometheus-stack:
       #retentionSize: "49GB"
       resources:
         limits:
-          cpu: 400m #2000m
-          memory: 2Gi #4Gi
+          cpu: 500m #2000m
+          memory: 1500Mi #4Gi
         requests: {}
         #   cpu: 2
         #   memory: 4Gi
