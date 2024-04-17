@@ -41,7 +41,7 @@ kube-prometheus-stack:
     resources:
       limits:
         cpu: 200m #1000m
-        memory: 300Mi #4Gi
+        memory: 200Mi #4Gi
       requests: {}
       #   cpu: '1'
       #   memory: 4Gi
@@ -57,7 +57,7 @@ kube-prometheus-stack:
       resources:
         limits:
           cpu: 200m #1000m
-          memory: 300Mi #1Gi
+          memory: 200Mi #1Gi
         requests: {}
         #   cpu: "1"
         #   memory: 1Gi
@@ -90,8 +90,8 @@ kube-prometheus-stack:
       #retentionSize: "49GB"
       resources:
         limits:
-          cpu: 500m #2000m
-          memory: 1500Mi #4Gi
+          cpu: 700m #2000m
+          memory: 600Mi #4Gi
         requests: {}
         #   cpu: 2
         #   memory: 4Gi
